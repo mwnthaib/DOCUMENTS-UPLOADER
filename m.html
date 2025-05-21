@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Document Upload Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 2rem;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      max-width: 700px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="file"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    input[type="file"] {
+      border: none;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 2rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .note {
+      font-size: 0.9rem;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Upload Required Documents</h2>
+    <form action="upload.php" method="POST" enctype="multipart/form-data" onsubmit="return validateFiles()">
+
+      <!-- Personal Info -->
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="address">Address</label>
+      <input type="text" id="address" name="address" required>
+
+      <label for="mobile">Mobile Number</label>
+      <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}" required>
+
+      <label for="email">Gmail ID</label>
+      <input type="email" id="email" name="email" required>
+
+      <p class="note">* All documents must be between 20KB and 500KB. Accepted formats: PDF, PNG, JPG, JPEG</p>
+
+      <!-- Document Uploads -->
+      <label>Aadhar Card</label>
+      <input type="file" name="aadhar" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>PAN Card</label>
+      <input type="file" name="pan" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Voter Card (Optional)</label>
+      <input type="file" name="voter" accept=".pdf,.png,.jpg,.jpeg">
+
+      <label>Marksheet HS</label>
+      <input type="file" name="marksheet_hs" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Admit Card HS</label>
+      <input type="file" name="admit_hs" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Marksheet HSLC</label>
+      <input type="file" name="marksheet_hslc" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Admit Card HSLC</label>
+      <input type="file" name="admit_hslc" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Passport Photo</label>
+      <input type="file" name="photo" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Caste Certificate</label>
+      <input type="file" name="caste" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Date of Birth Certificate (Optional)</label>
+      <input type="file" name="dob" accept=".pdf,.png,.jpg,.jpeg">
+
+      <label>Income Certificate</label>
+      <input type="file" name="income" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Ration Card</label>
+      <input type="file" name="ration" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <label>Bank Account Proof</label>
+      <input type="file" name="bank" accept=".pdf,.png,.jpg,.jpeg" required>
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+
+  <script>
+    function validateFiles() {
+      const inputs = document.querySelectorAll('input[type="file"]');
+      for (const input of inputs) {
+        if (input.required && input.files.length === 0) {
+          alert(`Please upload the file for ${input.previousElementSibling.textContent}`);
+          return false;
+        }
+        if(input.files.length > 0){
+          const file = input.files[0];
+          const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg'];
+          if (!allowedTypes.includes(file.type)) {
+            alert(`Invalid file type for ${input.previousElementSibling.textContent}. Allowed: PDF, PNG, JPG, JPEG.`);
+            return false;
+          }
+          if(file.size < 20 * 1024 || file.size > 500 * 1024) {
+            alert(`File size for ${input.previousElementSibling.textContent} must be between 20KB and 500KB.`);
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+  </script>
+
+</body>
+</html>
